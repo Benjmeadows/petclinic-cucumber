@@ -35,7 +35,7 @@ public class StepDefinitionPetClinicPages extends RunCucumberTest {
 		this.scenario = scenario;
     	System.getProperty("webdriver.chrome.driver", System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe"));
     	ChromeDriver chrmDriver = new ChromeDriver();
-    	chrmDriver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
+    	chrmDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     	driver.set(chrmDriver);
 	}
 	
