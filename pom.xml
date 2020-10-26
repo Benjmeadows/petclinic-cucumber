@@ -115,10 +115,5 @@
 			<artifactId>selenium-chrome-driver</artifactId>
 			<version>3.141.59</version>
 		</dependency>
-		<dependency>
-			<groupId>io.github.seleniumquery</groupId>
-			<artifactId>seleniumquery</artifactId>
-			<version>0.20.0</version>
-		</dependency>
 	</dependencies>
 </project>

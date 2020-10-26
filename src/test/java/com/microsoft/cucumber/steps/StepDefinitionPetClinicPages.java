@@ -1,6 +1,5 @@
 package com.microsoft.cucumber.steps;
 
-import static io.github.seleniumquery.SeleniumQuery.$;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
