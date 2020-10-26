@@ -2,10 +2,16 @@ package com.microsoft.cucumber.steps;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -13,6 +19,7 @@ import com.microsoft.cucumber.runner.RunCucumberTest;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -21,9 +28,11 @@ import io.cucumber.java.en.When;
 
 public class StepDefinitionPetClinicPages extends RunCucumberTest {
 	protected ThreadLocal<WebDriver> driver = new ThreadLocal<WebDriver>();
+	public Scenario scenario;
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp(Scenario scenario) throws Exception {
+		this.scenario = scenario;
     	System.getProperty("webdriver.chrome.driver", System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe"));
     	ChromeDriver chrmDriver = new ChromeDriver();
     	chrmDriver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
@@ -31,7 +40,13 @@ public class StepDefinitionPetClinicPages extends RunCucumberTest {
 	}
 	
 	@After
-	public void closeBrowser() {
+	public void closeBrowser() throws IOException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss.SSS");
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		TakesScreenshot scrShot =((TakesScreenshot)driver.get());
+		File SrcFile = scrShot.getScreenshotAs(OutputType.FILE);
+		File DestFile=new File("./target/screenshots/" + "-" + sdf.format(timestamp) + "-" + scenario.getName() + ".png");
+		FileUtils.copyFile(SrcFile, DestFile);
 		driver.get().quit();
 	}
 
