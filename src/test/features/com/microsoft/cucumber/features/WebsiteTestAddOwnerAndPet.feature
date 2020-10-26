@@ -15,7 +15,7 @@ Feature: Test adding a new owner and a new pet for that owner
     Then I should see the Last Name field
     And I should see the Find Owner button
 # Begin Owner Page Check
-		When I click the Add Owner button
+	  When I click the Add Owner button
 		Then I should see the First Name field
 		And I should see the Last Name field
 		And I should see the Address field

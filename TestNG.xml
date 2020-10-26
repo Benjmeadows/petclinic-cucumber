@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Testng Cucumber Suite" parallel="tests">
+  <test name="Run All Tests" thread-count="3">
+  <classes>
+  <class name="com.microsoft.cucumber.runner.RunCucumberTest"></class>
+  <!-- <class name="main.AnotherRunner"></class> This class could be used to run multiple runner classes-->
+  </classes>
+  
+  </test> <!-- Test -->
+</suite> <!-- Suite -->
