@@ -1,19 +1,34 @@
 package com.microsoft.utilities;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.StringWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
+import org.apache.commons.codec.binary.StringUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.ClientProtocolException;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.entity.mime.FileBody;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpHeaders;
+import org.apache.hc.core5.http.io.entity.ByteArrayEntity;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.message.StatusLine;
+import org.apache.http.entity.ContentType;
+
 
 public class HttpClientUtility {
 	private CloseableHttpClient httpClient;
@@ -21,7 +36,7 @@ public class HttpClientUtility {
 	private String responseBody;
 	private CloseableHttpResponse response;
 	private HttpEntity entity;
-	private StatusLine statusLine;
+	private int statusLine;
 	
 	public HttpClientUtility() {
 		initializeClient();
@@ -43,9 +58,9 @@ public class HttpClientUtility {
 		return httpClient;
 	}
 	
-	public StatusLine getHttpResponseCodeFromMessage() throws ClientProtocolException, IOException {
+	public int getHttpResponseCodeFromMessage() throws ClientProtocolException, IOException {
 		this.executeGet();
-		this.statusLine = response.getStatusLine();
+		this.statusLine = response.getCode();
 		return statusLine;
 	}
 	

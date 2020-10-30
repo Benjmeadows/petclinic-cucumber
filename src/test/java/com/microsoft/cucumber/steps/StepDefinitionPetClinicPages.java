@@ -16,6 +16,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import com.microsoft.cucumber.runner.RunCucumberTest;
+import com.microsoft.utilities.AzureAPIUtility;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -24,30 +25,41 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-
+import io.cucumber.messages.Messages.TestCase;
+import io.cucumber.plugin.event.TestStep;
 
 public class StepDefinitionPetClinicPages extends RunCucumberTest {
 	protected ThreadLocal<WebDriver> driver = new ThreadLocal<WebDriver>();
 	public Scenario scenario;
-	
+	String uri = "https://dev.azure.com/bemeadow/BDD%20Project/_apis/test/Runs/6/Results/100000/attachments?api-version=6.0-preview.1";
+
 	@Before
 	public void setUp(Scenario scenario) throws Exception {
 		this.scenario = scenario;
-    	System.getProperty("webdriver.chrome.driver", System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe"));
-    	ChromeDriver chrmDriver = new ChromeDriver();
-    	chrmDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-    	driver.set(chrmDriver);
+		//System.out.println(testCase.getTestStepsList().toString());
+		//System.out.println(scenario.getLine());
+		if (!scenario.getSourceTagNames().toString().contains("@Api")) {
+			System.getProperty("webdriver.chrome.driver",
+					System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe"));
+			ChromeDriver chrmDriver = new ChromeDriver();
+			chrmDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			driver.set(chrmDriver);
+		}
 	}
-	
+
 	@After
 	public void closeBrowser() throws IOException {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss.SSS");
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		TakesScreenshot scrShot =((TakesScreenshot)driver.get());
-		File SrcFile = scrShot.getScreenshotAs(OutputType.FILE);
-		File DestFile=new File("./target/screenshots/" + "-" + sdf.format(timestamp) + "-" + scenario.getName() + ".png");
-		FileUtils.copyFile(SrcFile, DestFile);
-		driver.get().quit();
+		if (!scenario.getSourceTagNames().toString().contains("@Api")) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss.SSS");
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			TakesScreenshot scrShot = ((TakesScreenshot) driver.get());
+			File SrcFile = scrShot.getScreenshotAs(OutputType.FILE);
+			File DestFile = new File(
+					"./target/screenshots/" + "-" + sdf.format(timestamp) + "-" + scenario.getName() + ".png");
+			FileUtils.copyFile(SrcFile, DestFile);
+			new AzureAPIUtility().postFileToAzure(DestFile, uri);
+			driver.get().quit();
+		}
 	}
 
 	@Given("^I am on the home page of the petclinic web app")
@@ -74,7 +86,8 @@ public class StepDefinitionPetClinicPages extends RunCucumberTest {
 
 	@And("^I should see the Find Owner button")
 	public void findOwnerButtonCheck() throws Throwable {
-		assertEquals("Find Owner",driver.get().findElement(By.xpath("//*[@id=\"search-owner-form\"]/div[2]/div/button")).getText());
+		assertEquals("Find Owner",
+				driver.get().findElement(By.xpath("//*[@id=\"search-owner-form\"]/div[2]/div/button")).getText());
 	}
 
 	@When("^I click the Add Owner button")
@@ -139,8 +152,8 @@ public class StepDefinitionPetClinicPages extends RunCucumberTest {
 
 	@Then("I should be presented with the Owner Information screen")
 	public void ownerInformationPageCheck() throws Throwable {
-		assertEquals("Edit Owner",driver.get().findElement(By.xpath("/html/body/div/div/a[1]")).getText());
-		assertEquals("Add New Pet",driver.get().findElement(By.xpath("/html/body/div/div/a[2]")).getText());
+		assertEquals("Edit Owner", driver.get().findElement(By.xpath("/html/body/div/div/a[1]")).getText());
+		assertEquals("Add New Pet", driver.get().findElement(By.xpath("/html/body/div/div/a[2]")).getText());
 	}
 
 	@When("I click the Add New Pet button")

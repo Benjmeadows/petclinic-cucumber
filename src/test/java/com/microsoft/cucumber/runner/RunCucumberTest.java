@@ -22,7 +22,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-@CucumberOptions(plugin = {"pretty", "html:target/cucumber"}, features = "src/test/features"
+@CucumberOptions(plugin="com.microsoft.cucumber.runner.CucumberEventListener", features = "src/test/features"
 ,glue= {"com.microsoft.cucumber.steps"})
 public class RunCucumberTest extends AbstractTestNGCucumberTests {
 	

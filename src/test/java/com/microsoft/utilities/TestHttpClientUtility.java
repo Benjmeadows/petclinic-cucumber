@@ -4,6 +4,8 @@ package com.microsoft.utilities;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.apache.hc.client5.http.ClientProtocolException;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,13 +16,6 @@ import java.io.IOException;
 import java.util.Base64;
 
 //HttpClient import statements
-import org.apache.http.HttpEntity;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 
 //Hoverfly import statements
 import static io.specto.hoverfly.junit.core.SimulationSource.dsl;

@@ -28,7 +28,7 @@ public class StepDefinitionApi {
 	
 	@Then("The response code should be {string}")
 	public void stepMethodToCheckTheResponseCode(String responseCode) throws ClientProtocolException, IOException {
-		assertEquals( util.getHttpResponseCodeFromMessage().toString(),responseCode);
+		assertEquals(new Integer(responseCode).intValue(), util.getHttpResponseCodeFromMessage());
 	}
 	
 	@And("The page output will include$")

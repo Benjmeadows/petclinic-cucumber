@@ -1,6 +1,6 @@
 #Author:Ben.Meadows@Microsoft.com
 
-@WebTestScenarios
+@WebTestScenarios @TestID:109
 Feature: Test adding a new owner and a new pet for that owner
   This feature will use features in the petclinic web app to test a workflow that adds an owner and a pet to
   the clinic.
@@ -46,5 +46,5 @@ Feature: Test adding a new owner and a new pet for that owner
 		Examples:
 		|FirstName|LastName|Address|City|Telephone|PetName|PetBirthDay|Type|
 		|Ben|Meadows|1234 Test Street|TestCity|9199999999|Patrick|2008-10-01|dog|
-		|Janice|Choi|4567 Cool Street|WestCity|2139999999|Polly|2009-11-02|bird|
-		|Dennis|Bass|8910 Coast Street|CoastCity|7049999999|Sam|2010-10-07|cat|
+		#|Janice|Choi|4567 Cool Street|WestCity|2139999999|Polly|2009-11-02|bird|
+		#|Dennis|Bass|8910 Coast Street|CoastCity|7049999999|Sam|2010-10-07|cat|
